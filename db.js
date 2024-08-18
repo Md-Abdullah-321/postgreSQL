@@ -1,28 +1,25 @@
+const { Pool } = require("pg");
 
-const {Client} = require("pg");
+const pool = new Pool({
+    host: "localhost",
+    user: "abdullah",
+    port: 5432,
+    password: "123456",
+    database: "test"
+});
 
-const connnectDB = () => {
-    const client = new Client({
-        host: "localhost",
-        user: "abdullah",
-        port: 5432,
-        password: "123456",
-        database: "test"
-    });
-
-    client.connect();
-
-    client.query(`SELECT * FROM person`, (err, res) => {
-        if(!err){
-            console.log(res.rows);
-        }else {
-            console.log(err.message);
-        }
-
-        client.end;
-    });
+const executeQuery = async (query, params = []) => {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(query, params);
+        client.release();
+        return res.rows;
+    } catch (err) {
+        console.error(err.message);
+        throw err;
+    }
 }
 
 module.exports = {
-    connnectDB,
+    executeQuery,
 }

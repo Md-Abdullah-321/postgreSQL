@@ -47,3 +47,8 @@
 --     '2000-08-11',
 --     'abdullah.dev.it@gmail.com'
 -- );
+
+
+-- SELECT first_name, email FROM person;
+
+
